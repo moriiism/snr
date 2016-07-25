@@ -1,7 +1,7 @@
 LIBS = 
 BINS = util
 
-SUBDIRS = $(LIBS) $(BINS) script scriptR setup
+SUBDIRS = $(LIBS) $(BINS) script scriptR setup doc
 
 all: libs bins
 

@@ -1,0 +1,35 @@
+#
+# nmf.init.S.R.txt
+#
+
+
+mkdir setup
+
+in_file=img2cube/casa_cube.fits
+subcube=setup/subcube.dat
+spec_list=setup/spec.list
+nrank=4
+outdir=nmf_init_r04
+outfile_head=casa
+
+cat << EOF > setup/subcube.dat
+#  x(pixel)  y(pixel)  t(frame)
+10    10  1
+350  350 40
+EOF
+
+cat << EOF > setup/spec.list
+../../data/CasA/160714/csm_model.qdp
+../../data/CasA/160714/fe_model.qdp
+../../data/CasA/160714/pow_model.qdp
+../../data/CasA/160714/sisarca_model.qdp
+EOF
+
+/home/morii/work/github/moriiism/snr/script/nmf.init.S.R \
+${in_file} \
+${subcube} \
+${spec_list} \
+${nrank} \
+${outdir} \
+${outfile_head}
+

@@ -1,0 +1,38 @@
+#
+# qp.S.R.txt
+#
+
+
+
+
+
+### example
+
+mkdir setup
+
+in_file=../16071400/img2cube/casa_cube.fits
+subcube=setup/subcube.dat
+spec_list=setup/spec.list
+outdir=qpout
+outfile_head=casa
+
+cat << EOF > setup/subcube.dat
+#  x(pixel)  y(pixel)  t(frame)
+10    10  1
+350  350 40
+EOF
+
+cat << EOF > setup/spec.list
+../../data/CasA/160714/csm_model.qdp
+../../data/CasA/160714/fe_model.qdp
+../../data/CasA/160714/pow_model.qdp
+../../data/CasA/160714/sisarca_model.qdp
+EOF
+
+/home/morii/work/github/moriiism/snr/script/qp.S.R \
+${in_file} \
+${subcube} \
+${spec_list} \
+${outdir} \
+${outfile_head}
+

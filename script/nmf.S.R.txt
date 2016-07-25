@@ -1,0 +1,26 @@
+#
+# nmf.S.R.txt
+#
+
+
+mkdir setup
+
+in_file=img2cube/casa_cube.fits
+subcube=setup/subcube.dat
+nrank=5
+outdir=nmf_r05
+outfile_head=casa
+
+cat << EOF > setup/subcube.dat
+#  x(pixel)  y(pixel)  t(frame)
+10    10  1
+350  350 36
+EOF
+
+/home/morii/work/github/moriiism/snr/script/nmf.S.R \
+${in_file} \
+${subcube} \
+${nrank} \
+${outdir} \
+${outfile_head}
+
