@@ -55,7 +55,7 @@ CFITSIO_INC = -I$(CFITSIO_DIR)/include
 CFITSIO_LIB = -L$(CFITSIO_DIR)/lib -lcfitsio
 
 ### milib
-MILIB_DIR = /home/morii/work/github/moriiism/milib
+MILIB_DIR = /home/morii/work/github/moriiism/mitool/milib
 MILIB_INC = -I$(MILIB_DIR)/include
 MILIB_LIB = -L$(MILIB_DIR)/lib -lmilib
 
