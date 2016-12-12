@@ -1,13 +1,13 @@
 #
-# 16120900.txt
+# 16121200.txt
 #
 
-mkdir /home/morii/work/snr/ana/16120901
-cd /home/morii/work/snr/ana/16120901
+mkdir /home/morii/work/ana/snr/16121200
+cd    /home/morii/work/ana/snr/16121200
 
 mkdir setup
 
-in_file=/home/morii/work/snr/from_katsuda/edge_photon/casa_cube.fits
+in_file=../data/casa_cube.fits
 subcube=setup/subcube.dat
 spec_list=setup/spec.list
 outdir=qpout
@@ -20,11 +20,12 @@ cat << EOF > setup/subcube.dat
 EOF
 
 cat << EOF > setup/spec.list
-../../data/CasA/160714/csm_model.qdp
-../../data/CasA/160714/fe_model.qdp
-../../data/CasA/160714/pow_model.qdp
-../../data/CasA/160714/sisarca_model.qdp
+../data/csm_model.qdp
+../data/fe_model.qdp
+../data/pow_model.qdp
+../data/sisarca_model.qdp
 EOF
+
 
 /home/morii/work/github/moriiism/snr/script/qp.S.R \
 ${in_file} \
@@ -33,17 +34,21 @@ ${spec_list} \
 ${outdir} \
 ${outfile_head}
 
+---->
+qpout/casa_rep_01.fits
+qpout/casa_rep_02.fits
+qpout/casa_rep_03.fits
+qpout/casa_rep_04.fits
 
----> casa_rep.fits が生成される。
 
-これに対して、Poisson エラーを付けて出力する。
+### for qpout/casa_rep_01.fits
 
 mkdir setup
 
-in_file=qpout/casa_rep.fits
+in_file=qpout/casa_rep_01.fits
 outdir=addpoierr
-outfile_head=casa
-nfile=30
+outfile_head=casa_rep_01
+nfile=1000
 nran=10
 
 /home/morii/work/github/moriiism/snr/script/add.poierr.S.R \
@@ -52,12 +57,4 @@ ${outdir} \
 ${outfile_head} \
 ${nfile} \
 ${nran}
-
-
-
-
-
-
-
-
 

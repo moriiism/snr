@@ -1,14 +1,15 @@
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
+
+### #!/usr/local/bin/Rscript
 ### #!/opt/local/bin/Rscript
 
 ###
 ### add.poierr.S.R
 ###
-### 2016.12.09 M.Morii
+### 2016.12.12 M.Morii
 ###
 
 require(FITSio)
-library("quadprog")
 
 snrtooldir = "/home/morii/work/github/moriiism/snr"
 ### snrtooldir = "/Users/katsuda/work/morii/snr"
@@ -29,16 +30,12 @@ fits <- readFITS(in.file)
 ### time st
 time.st = Sys.time()
 
-nx = length(fits$imDat[,1,1])
-ny = length(fits$imDat[1,,1])
-nt = length(fits$imDat[1,1,])
-
+nx = length(fits$imDat[,1])
+ny = length(fits$imDat[1,])
 printf("nx = %d\n", nx)
 printf("ny = %d\n", ny)
-printf("nt = %d\n", nt)
-
-nrow = nx * ny
-ncol = nt
+nrow = nx
+ncol = ny
 
 mat = matrix(as.vector(fits$imDat),
     nrow=nrow, ncol=ncol)
@@ -52,23 +49,21 @@ for(iloop in 1:nloop){
     printf("iloop = %d\n", iloop)
     ## loop for pixel
     for(irow in 1:nrow){
-        ## printf("irow / nrow = %d / %d\n", irow, nrow)
-        ## loop for spec
         for(icol in 1:ncol){
-            adderr.vec = rpois(nran, lambda = mat[irow, icol])
-            ##if(mat[irow, icol] > 0){
-            ##    printf("org = %e, adderr = %e\n",
-            ##           mat[irow, icol], adderr[1])
-            ##}
+            val = mat[irow, icol]
+            if(val < 0.0){
+                val = 0.0
+            }
+            adderr.vec = rpois(nran, lambda = val)
             array.adderr[irow, icol,] = adderr.vec
         }
     }
     for(iran in 1:nran){
         ifile = ifile + 1
-        cube.out = array(array.adderr[,,iran], dim=c(nx, ny, nt))
+        image.out = array(array.adderr[,,iran], dim=c(nx, ny))
         file.out = sprintf("%s/%s_adderr_%5.5d.fits",
             outdir, outfile.head, ifile)
-        writeFITSim(cube.out, file=file.out)
+        writeFITSim(image.out, file=file.out)
     }
     time.now = Sys.time()
     print(as.difftime(time.now - time.st))

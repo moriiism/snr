@@ -1,14 +1,14 @@
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
+
+### #!/usr/local/bin/Rscript
 
 ###
 ### qp.S.R
 ###
-### 2016.07.21 M.Morii
+### 2016.12.12 M.Morii
 ###
 
 require(FITSio)
-library("svd")
-library("NMF")
 library("quadprog")
 
 snrtooldir = "/home/morii/work/github/moriiism/snr"
@@ -135,28 +135,21 @@ writeFITSim(cube.img, file=file.img)
 writeFITSim(image.comp, file=file.comp)
 writeFITSim(cube.diff, file=file.diff)
 
-ene.lo = 0.5
-ene.up = 8.0
-bin.vec = GetBin(npos.t, ene.lo, ene.up, "log")
-ene.serr = (ene.up - ene.lo) / npos.t / 2.
-
-file.spec = sprintf("%s/%s_spec.qdp",
-    outdir, outfile.head)
-sink(file.spec)
-printf("skip sing\n")
-printf("\n")
+### reproduced each component
 
 for(ispec in 1:nspec){
-    printf("! ispec = %d\n", ispec)
-    for(itime in 1:npos.t){
-        ene = bin.vec[itime]
-        printf("%e %e\n", ene, H.mat[ispec, itime])
-    }
-    printf("\n")
-    printf("no\n")
-    printf("\n")
+    mat.rep.each = matrix(img.mat[,ispec], nrow=nrow(img.mat), ncol=ncol(img.mat)) %*%
+                   matrix(H.mat[ispec,], nrow=nrow(H.mat), ncol=ncol(H.mat))
+    ### cube.rep.each = array(mat.rep.each, dim=c(npos.x, npos.y, npos.t))
+    ### file.rep.each = sprintf("%s/%s_rep_%2.2d.fits", outdir, outfile.head, ispec)
+    ### writeFITSim(cube.rep.each, file=file.rep.each)
+    
+    mat.rep.sum = apply(mat.rep.each, 1, sum)
+    image.rep.sum = array(mat.rep.sum, dim=c(npos.x, npos.y))
+    file.rep.sum.each = sprintf("%s/%s_rep_%2.2d.fits", outdir, outfile.head, ispec)
+    writeFITSim(image.rep.sum, file=file.rep.sum.each)
 }
-sink()
+
 
 ##### time ed
 time.ed = Sys.time()
