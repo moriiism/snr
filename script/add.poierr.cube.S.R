@@ -1,14 +1,14 @@
-#!/usr/local/bin/Rscript
+#!/usr/bin/Rscript
+### #!/usr/local/bin/Rscript
 ### #!/opt/local/bin/Rscript
 
 ###
-### add.poierr.S.R
+### add.poierr.cube.S.R
 ###
-### 2016.12.09 M.Morii
+### 2016.12.13 M.Morii
 ###
 
 require(FITSio)
-library("quadprog")
 
 snrtooldir = "/home/morii/work/github/moriiism/snr"
 ### snrtooldir = "/Users/katsuda/work/morii/snr"
@@ -52,14 +52,8 @@ for(iloop in 1:nloop){
     printf("iloop = %d\n", iloop)
     ## loop for pixel
     for(irow in 1:nrow){
-        ## printf("irow / nrow = %d / %d\n", irow, nrow)
-        ## loop for spec
         for(icol in 1:ncol){
             adderr.vec = rpois(nran, lambda = mat[irow, icol])
-            ##if(mat[irow, icol] > 0){
-            ##    printf("org = %e, adderr = %e\n",
-            ##           mat[irow, icol], adderr[1])
-            ##}
             array.adderr[irow, icol,] = adderr.vec
         }
     }
@@ -78,6 +72,3 @@ for(iloop in 1:nloop){
 ##### time ed
 time.ed = Sys.time()
 print(as.difftime(time.ed - time.st))
-
-
-

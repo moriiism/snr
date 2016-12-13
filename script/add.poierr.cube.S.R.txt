@@ -1,63 +1,21 @@
 #
-# 16120900.txt
+# add.poierr.cube.S.R.txt
 #
 
-mkdir /home/morii/work/snr/ana/16120901
-cd /home/morii/work/snr/ana/16120901
+mkdir /home/morii/work/ana/snr/16121300
+cd    /home/morii/work/ana/snr/16121300
 
-mkdir setup
-
-in_file=/home/morii/work/snr/from_katsuda/edge_photon/casa_cube.fits
-subcube=setup/subcube.dat
-spec_list=setup/spec.list
-outdir=qpout
-outfile_head=casa
-
-cat << EOF > setup/subcube.dat
-#  x(pixel)  y(pixel)  t(frame)
-1    1  1
-440  440 40
-EOF
-
-cat << EOF > setup/spec.list
-../../data/CasA/160714/csm_model.qdp
-../../data/CasA/160714/fe_model.qdp
-../../data/CasA/160714/pow_model.qdp
-../../data/CasA/160714/sisarca_model.qdp
-EOF
-
-/home/morii/work/github/moriiism/snr/script/qp.S.R \
-${in_file} \
-${subcube} \
-${spec_list} \
-${outdir} \
-${outfile_head}
-
-
----> casa_rep.fits が生成される。
-
-これに対して、Poisson エラーを付けて出力する。
-
-mkdir setup
-
-in_file=qpout/casa_rep.fits
+in_file=../data/casa_cube.fits
 outdir=addpoierr
-outfile_head=casa
-nfile=30
-nran=10
+outfile_head=casa_cube
+nfile=6
+nran=3
 
-/home/morii/work/github/moriiism/snr/script/add.poierr.S.R \
+/home/morii/work/github/moriiism/snr/script/add.poierr.cube.S.R \
 ${in_file} \
 ${outdir} \
 ${outfile_head} \
 ${nfile} \
 ${nran}
-
-
-
-
-
-
-
 
 
