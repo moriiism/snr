@@ -49,6 +49,7 @@ int main(int argc, char* argv[])
     img_info->Load(argval->GetSubimgDat());
     img_info->PrintInfo();
     printf("=== img_info ===\n");
+    
 
     long npix_cube =
         img_info->GetNaxesArrElm(0) *
@@ -68,9 +69,26 @@ int main(int argc, char* argv[])
         delete [] X_mat;
     }
 
+    
+
     float* cube_float_mat = new float [npix_cube];
     for(long ipix = 0; ipix < npix_cube; ipix ++){
         cube_float_mat[ipix] = cube_mat[ipix];
+    }
+    float* cube_log_float_mat = new float [npix_cube];
+    double pval_min = 1.0e10;
+    double pval_max = -1.0e10;
+    for(long ipix = 0; ipix < npix_cube; ipix ++){
+        if(cube_mat[ipix] < pval_min){
+            pval_min = cube_mat[ipix];
+        }
+        if(cube_mat[ipix] > pval_max){
+            pval_max = cube_mat[ipix];
+        }        
+    }
+    double pval_offset = pval_min - (pval_max - pval_min) * 0.1;
+    for(long ipix = 0; ipix < npix_cube; ipix ++){
+        cube_log_float_mat[ipix] = log(cube_mat[ipix] - pval_offset);
     }
     
     MiImgInfo* img_info_cube = new MiImgInfo;
@@ -84,6 +102,14 @@ int main(int argc, char* argv[])
                          "cube",
                          3, img_info_cube->GetNaxesArr(),
                          cube_float_mat);
+
+    MiFits::OutFitsCubeF(argval->GetOutdir(),
+                         argval->GetOutfileHead(),
+                         "cube_log",
+                         3, img_info_cube->GetNaxesArr(),
+                         cube_log_float_mat);
+    
+    
     
     return status_prog;
 }

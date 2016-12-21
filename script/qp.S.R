@@ -1,17 +1,17 @@
 #!/usr/local/bin/Rscript
+### #!/opt/local/bin/Rscript
 
 ###
 ### qp.S.R
 ###
-### 2016.07.21 M.Morii
+### 2016.12.09 M.Morii
 ###
 
 require(FITSio)
-library("svd")
-library("NMF")
 library("quadprog")
 
 snrtooldir = "/home/morii/work/github/moriiism/snr"
+### snrtooldir = "/Users/katsuda/work/morii/snr"
 source( paste(snrtooldir, "scriptR/rlib/iolib.R", sep="/") )
 source( paste(snrtooldir, "scriptR/rlib/binning.R", sep="/") )
 source( paste(snrtooldir, "scriptR/rlib/vec_ope.R", sep="/") )
@@ -101,7 +101,8 @@ for(irow in 1:nrow){
 ###    print(head(A.mat))
 ###    print(head(b0.vec))
 
-    ret.qp = solve.QP(D.mat, d.vec, A.mat, b0.vec, meq=0, factorized=FALSE)
+    ret.qp = solve.QP(D.mat, d.vec, A.mat, b0.vec,
+        meq=0, factorized=FALSE)
 
 ### print(ret.qp$solution)
     img.mat[irow,] = ret.qp$solution
@@ -135,28 +136,15 @@ writeFITSim(cube.img, file=file.img)
 writeFITSim(image.comp, file=file.comp)
 writeFITSim(cube.diff, file=file.diff)
 
-ene.lo = 0.5
-ene.up = 8.0
-bin.vec = GetBin(npos.t, ene.lo, ene.up, "log")
-ene.serr = (ene.up - ene.lo) / npos.t / 2.
-
-file.spec = sprintf("%s/%s_spec.qdp",
-    outdir, outfile.head)
-sink(file.spec)
-printf("skip sing\n")
-printf("\n")
-
+### each component
 for(ispec in 1:nspec){
-    printf("! ispec = %d\n", ispec)
-    for(itime in 1:npos.t){
-        ene = bin.vec[itime]
-        printf("%e %e\n", ene, H.mat[ispec, itime])
-    }
-    printf("\n")
-    printf("no\n")
-    printf("\n")
+    mat.rep.each = matrix(0.0, nrow(img.mat), ncol(H.mat))
+    mat.rep.each = matrix(img.mat[,ispec], nrow(img.mat), 1) %*% matrix(H.mat[ispec,], 1, ncol(H.mat))
+    cube.rep.each = array(mat.rep.each, dim=c(npos.x, npos.y, npos.t))
+    file.rep.each = sprintf("%s/%s_rep_%2.2d.fits",
+        outdir, outfile.head, ispec)
+    writeFITSim(cube.rep.each, file=file.rep.each)
 }
-sink()
 
 ##### time ed
 time.ed = Sys.time()
