@@ -1,0 +1,21 @@
+#
+# add.poierr.cube.S.R.txt
+#
+
+mkdir /home/morii/work/ana/snr/16121300
+cd    /home/morii/work/ana/snr/16121300
+
+in_file=../data/casa_cube.fits
+outdir=addpoierr
+outfile_head=casa_cube
+nfile=6
+nran=3
+
+/home/morii/work/github/moriiism/snr/script/add.poierr.cube.S.R \
+${in_file} \
+${outdir} \
+${outfile_head} \
+${nfile} \
+${nran}
+
+

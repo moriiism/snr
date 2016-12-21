@@ -1,10 +1,11 @@
-#!/usr/local/bin/Rscript
-### #!/opt/local/bin/Rscript
+#!/usr/bin/Rscript
+
+### #!/usr/local/bin/Rscript
 
 ###
 ### qp.S.R
 ###
-### 2016.12.09 M.Morii
+### 2016.12.12 M.Morii
 ###
 
 require(FITSio)
@@ -136,14 +137,19 @@ writeFITSim(cube.img, file=file.img)
 writeFITSim(image.comp, file=file.comp)
 writeFITSim(cube.diff, file=file.diff)
 
-### each component
+### reproduced each component
+
 for(ispec in 1:nspec){
-    mat.rep.each = matrix(0.0, nrow(img.mat), ncol(H.mat))
-    mat.rep.each = matrix(img.mat[,ispec], nrow(img.mat), 1) %*% matrix(H.mat[ispec,], 1, ncol(H.mat))
-    cube.rep.each = array(mat.rep.each, dim=c(npos.x, npos.y, npos.t))
-    file.rep.each = sprintf("%s/%s_rep_%2.2d.fits",
-        outdir, outfile.head, ispec)
-    writeFITSim(cube.rep.each, file=file.rep.each)
+    mat.rep.each = matrix(img.mat[,ispec], nrow=nrow(img.mat), ncol=ncol(img.mat)) %*%
+                   matrix(H.mat[ispec,], nrow=nrow(H.mat), ncol=ncol(H.mat))
+    ### cube.rep.each = array(mat.rep.each, dim=c(npos.x, npos.y, npos.t))
+    ### file.rep.each = sprintf("%s/%s_rep_%2.2d.fits", outdir, outfile.head, ispec)
+    ### writeFITSim(cube.rep.each, file=file.rep.each)
+    
+    mat.rep.sum = apply(mat.rep.each, 1, sum)
+    image.rep.sum = array(mat.rep.sum, dim=c(npos.x, npos.y))
+    file.rep.sum.each = sprintf("%s/%s_rep_%2.2d.fits", outdir, outfile.head, ispec)
+    writeFITSim(image.rep.sum, file=file.rep.sum.each)
 }
 
 ##### time ed
