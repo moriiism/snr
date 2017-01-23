@@ -1,0 +1,8 @@
+#
+# coxreg.txt
+#
+
+/home/morii/work/github/moriiism/snr/util/coxreg/coxreg \
+/home/morii/work/snr/from_katsuda/edge_photon/CasA_edge_forCube.reg \
+outdir temp
+
