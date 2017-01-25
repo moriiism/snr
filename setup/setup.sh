@@ -11,32 +11,15 @@
 # before using moriiism/snr
 #
 
+export LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}
+
+
 ##
 ## cfitsio
 ##
 
 export LD_LIBRARY_PATH=/soft/cfitsio/3380/lib:${LD_LIBRARY_PATH}
 
-##
-## gotoblas2
-##
-
-export LD_LIBRARY_PATH=/home/morii/admin/GotoBLAS2/GotoBLAS2:${LD_LIBRARY_PATH}
-export GOTO_NUM_THREADS=8
-
-##
-## openblas
-##
-
-#export LD_LIBRARY_PATH=/soft/OpenBLAS/12ab180/lib:${LD_LIBRARY_PATH}
-#export OPENBLAS_NUM_THREADS=8
-
-##
-## openmpi
-##
-
-#export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}
-#export PATH=$PATH:/usr/lib64/openmpi/bin
 
 ##
 ## change the terminal title

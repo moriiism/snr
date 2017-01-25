@@ -2,9 +2,9 @@
 #include "mi_iolib.h"
 #include "mir_hist2d_nerr.h"
 #include "mir_qdp_tool.h"
-
+#include "mir_graph2d_ope.h"
+#include "mir_root_tool.h"
 #include "arg_coxreg.h"
-
 #include "TCanvas.h"
 #include "TH1D.h"
 
@@ -17,6 +17,9 @@ int g_flag_verbose = 0;
 int main(int argc, char* argv[])
 {
     int status_prog = kRetNormal;
+
+    MirRootTool* root_tool = new MirRootTool;
+    root_tool->InitTCanvas("def");
     
     ArgValCoxreg* argval = new ArgValCoxreg;
     argval->Init(argc, argv);
@@ -50,7 +53,7 @@ int main(int argc, char* argv[])
         }
     }
     MiIolib::DelReadFile(lines_arr);
-
+    
     int npoint = nsplit / 2;
     double* xpoint_arr = new double [npoint];
     double* ypoint_arr = new double [npoint];
@@ -60,28 +63,81 @@ int main(int argc, char* argv[])
     }
     MiStr::DelSplit(split_arr);
     
-    for(int ipoint = 0; ipoint < npoint; ipoint ++){
-        printf("%e, %e\n",
-               xpoint_arr[ipoint],
-               ypoint_arr[ipoint]);
-    }
-
     GraphDataNerr2d* gd2d = new GraphDataNerr2d;
     gd2d->Init(npoint);
     gd2d->SetXvalArr(npoint, xpoint_arr);
     gd2d->SetOvalArr(npoint, ypoint_arr);
-    MirQdpTool::MkQdp(gd2d, "temp.qdp", "x,y");
+
+    // -------------------------
+    long npix = 512;
+    HistDataNerr2d* hd2d_md = new HistDataNerr2d;
+    hd2d_md->Init(npix, 0.0, npix, npix, 0.0, npix);
+    vector<double> mdx_vec;
+    vector<double> mdy_vec;
+
+    int ntheta = 100;
+    double theta_st = 0.0;
+    double theta_ed = M_PI;
+    double delta_theta = (theta_ed - theta_st) / ntheta;
+    for(int itheta = 0; itheta < ntheta; itheta ++){
+        double theta = theta_st + delta_theta * itheta;
+        // motion
+        GraphDataNerr2d* gd2d_conv = new GraphDataNerr2d;
+        GraphData2dOpe::GetMotion(gd2d, 0.0, 0.0, theta, 1, gd2d_conv);
+        
+        double center_x = (gd2d_conv->GetXvalArr()->GetValMin() +
+                           gd2d_conv->GetXvalArr()->GetValMax()) / 2.0;
+        double center_y = (gd2d_conv->GetOvalArr()->GetValMin() +
+                           gd2d_conv->GetOvalArr()->GetValMax()) / 2.0;
+        double lo_x = center_x - npix/2.;
+        double up_x = center_x + npix/2.;
+        double lo_y = center_y - npix/2.;
+        double up_y = center_y + npix/2.;
+        HistDataNerr2d* hd2d = new HistDataNerr2d;
+        hd2d->Init(npix, lo_x, up_x, npix, lo_y, up_y);
+        HistDataNerr2d* hd2d_fill = new HistDataNerr2d;
+        HistData2dOpe::FillGd2d(hd2d, gd2d_conv, hd2d_fill);
+
+        char outfig[kLineSize];
+        sprintf(outfig, "temp_%2.2d.png", itheta);
+        hd2d_fill->MkTH2Fig(outfig, root_tool);
+        
+        double xval_md = HistData2dOpe::FindMdXbyEdge(hd2d_fill);
+        double yval_md = HistData2dOpe::FindMdYbyEdge(hd2d_fill);
+        Vect2d* vect_md = new Vect2d;
+        vect_md->Init(xval_md, yval_md);
+        Vect2d* vect_md_org = MirGeom::GenRot(vect_md, theta, -1);
+
+        printf("%e %e\n", vect_md_org->GetPosX(), vect_md_org->GetPosY());
+
+        mdx_vec.push_back(vect_md_org->GetPosX());
+        mdy_vec.push_back(vect_md_org->GetPosY());
+        hd2d_md->Fill(vect_md_org->GetPosX(), vect_md_org->GetPosY());
+
+        delete gd2d_conv;
+        delete hd2d;
+        delete hd2d_fill;
+        delete vect_md;
+        delete vect_md_org;
+    }
+
+    double cox_x = MirMath::GetAMean(mdx_vec);
+    double cox_y = MirMath::GetAMean(mdy_vec);
+    double cox_x_stddev = MirMath::GetStddev(mdx_vec);
+    double cox_y_stddev = MirMath::GetStddev(mdy_vec);
+
+    printf("cox = (%e, %e)\n", cox_x, cox_y);
+    printf("cox_stddev = (%e, %e)\n", cox_x_stddev, cox_y_stddev);
+    
+    TH2D* td2d = hd2d_md->GenTH2D(0.0, 0.0, 0.0);
+    TCanvas* can = new TCanvas;
+    td2d->Draw("colz");
+    can->Print("aaa.png");
+    
+    
     delete gd2d;
-    
-    HistDataNerr2d* hd2d = new HistDataNerr2d;
-    hd2d->Init(100, 0, 10, 100, 0, 10);
-
-
-    
-//    TCanvas* can = new TCanvas;
-//    TH1D* th1d = new TH1D("aaa", "aaa", 100, 0, 100);
-//    th1d->Draw();
-//    can->Print("aaa.png");
+    delete td2d;
+    delete can;
     
     return status_prog;
 }
