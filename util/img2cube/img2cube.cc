@@ -1,7 +1,8 @@
 #include "fitsio.h"
 #include "mi_str.h"
 #include "mi_iolib.h"
-#include "mi_fits.h"
+#include "mif_fits.h"
+#include "mif_img_info.h"
 #include "arg_img2cube.h"
 
 // global variable 
@@ -45,7 +46,7 @@ int main(int argc, char* argv[])
     printf("=== imglist ===\n");
 
     printf("--- img_info ---\n");
-    MiImgInfo* img_info = new MiImgInfo;
+    MifImgInfo* img_info = new MifImgInfo;
     img_info->Load(argval->GetSubimgDat());
     img_info->PrintInfo();
     printf("=== img_info ===\n");
@@ -60,7 +61,7 @@ int main(int argc, char* argv[])
     long index = 0;
     for(long iline = 0; iline < nline_imglist; iline ++){
         double* X_mat = NULL;
-        MiFits::InFitsImageF(imglist[iline],
+        MifFits::InFitsImageF(imglist[iline],
                              img_info, &X_mat);
         for(long ipix = 0; ipix < img_info->GetNpixelImg(); ipix ++){
             cube_mat[index] = X_mat[ipix];
@@ -91,19 +92,19 @@ int main(int argc, char* argv[])
         cube_log_float_mat[ipix] = log(cube_mat[ipix] - pval_offset);
     }
     
-    MiImgInfo* img_info_cube = new MiImgInfo;
+    MifImgInfo* img_info_cube = new MifImgInfo;
     img_info_cube->InitSetCube(1, 1, 1,
                                img_info->GetNaxesArrElm(0),
                                img_info->GetNaxesArrElm(1),
                                nline_imglist);
 
-    MiFits::OutFitsCubeF(argval->GetOutdir(),
+    MifFits::OutFitsCubeF(argval->GetOutdir(),
                          argval->GetOutfileHead(),
                          "cube",
                          3, img_info_cube->GetNaxesArr(),
                          cube_float_mat);
 
-    MiFits::OutFitsCubeF(argval->GetOutdir(),
+    MifFits::OutFitsCubeF(argval->GetOutdir(),
                          argval->GetOutfileHead(),
                          "cube_log",
                          3, img_info_cube->GetNaxesArr(),

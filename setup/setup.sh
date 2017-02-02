@@ -15,14 +15,15 @@
 ## cfitsio
 ##
 
-export LD_LIBRARY_PATH=/soft/cfitsio/3380/lib:${LD_LIBRARY_PATH}
+#export LD_LIBRARY_PATH=/soft/cfitsio/3380/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=/soft/cfitsio/3410/lib:${LD_LIBRARY_PATH}
 
 ##
 ## gotoblas2
 ##
 
-export LD_LIBRARY_PATH=/home/morii/admin/GotoBLAS2/GotoBLAS2:${LD_LIBRARY_PATH}
-export GOTO_NUM_THREADS=8
+#export LD_LIBRARY_PATH=/home/morii/admin/GotoBLAS2/GotoBLAS2:${LD_LIBRARY_PATH}
+#export GOTO_NUM_THREADS=8
 
 ##
 ## openblas

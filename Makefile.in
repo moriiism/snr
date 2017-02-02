@@ -16,15 +16,14 @@ INST_INC_DIR = ${SNR_INC_DIR}
 # EIGEN_INC = -I/soft/eigen/3.2.8/include/eigen3
 
 #### blas
-##BLAS_LIB = /home/morii/admin/BLAS/BLAS-3.6.0/blas_LINUX.a
-
+BLAS_LIB = /soft/blas/3.7.0/lib/libblas.a
 
 #### cblas
 # CBLAS_INC = -I/home/morii/admin/BLAS/CBLAS/include
 # CBLAS_LIB = /home/morii/admin/BLAS/CBLAS/lib/cblas_LINUX.a
 
 #### lapack
-##LAPACK_LIB = -L/home/morii/admin/LAPACK/lapack-3.6.0 -llapack -lgfortran
+LAPACK_LIB = -L/soft/lapack/3.7.0/lib -llapack -lgfortran
 
 
 #### OpenBLAS
@@ -46,11 +45,11 @@ GOTOBLAS2_LIB = ${GOTOBLAS2_DIR}/libgoto2.a -lpthread -lgfortran
 
 ### MersenneTwister
 MT_DIR = /soft/MersenneTwister/mt19937-64
-MT_INC = -I$(MT_DIR)
-MT_LIB = -L$(MT_DIR) -lmt19937-64
+MT_INC = -I$(MT_DIR)/include
+MT_LIB = -L$(MT_DIR)/lib -lmt19937-64
 
 ### cfitsio
-CFITSIO_DIR = /soft/cfitsio/3380
+CFITSIO_DIR = /soft/cfitsio/3410
 CFITSIO_INC = -I$(CFITSIO_DIR)/include
 CFITSIO_LIB = -L$(CFITSIO_DIR)/lib -lcfitsio
 
@@ -58,6 +57,12 @@ CFITSIO_LIB = -L$(CFITSIO_DIR)/lib -lcfitsio
 MILIB_DIR = /home/morii/work/github/moriiism/mitool/milib
 MILIB_INC = -I$(MILIB_DIR)/include
 MILIB_LIB = -L$(MILIB_DIR)/lib -lmilib
+
+### mifitslib
+MIFITSLIB_DIR = /home/morii/work/github/moriiism/mitool/mifitslib
+MIFITSLIB_INC = -I$(MIFITSLIB_DIR)/include
+MIFITSLIB_LIB = -L$(MIFITSLIB_DIR)/lib -lmifitslib
+
 
 ### library
 LIB = -lm -lrt

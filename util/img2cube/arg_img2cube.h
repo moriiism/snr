@@ -5,8 +5,8 @@
 
 class ArgValImg2cube : public MiArgBase{
 public:
-    ArgValImg2cube(string title = "") :
-        MiArgBase("ArgValImg2cube", title),
+    ArgValImg2cube() :
+        MiArgBase(),
         progname_(""),
         in_list_(""),
         subimg_dat_(""),
