@@ -1,0 +1,17 @@
+#
+# coxreg.txt
+#
+
+/home/morii/work/github/moriiism/snr/util/coxreg/coxreg \
+/home/morii/work/snr/from_katsuda/edge_photon/CasA_edge_forCube.reg \
+300 \
+outdir casa
+
+
+# output
+
+outdir/casa_????.png
+outdir/center.png
+outdir/midpoint.dat
+outdir/summary.dat
+

@@ -11,10 +11,9 @@
 # before using moriiism/snr
 #
 
-##
-## cfitsio
-##
+export LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}
 
+<<<<<<< HEAD
 #export LD_LIBRARY_PATH=/soft/cfitsio/3380/lib:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH=/soft/cfitsio/3410/lib:${LD_LIBRARY_PATH}
 
@@ -27,17 +26,15 @@ export LD_LIBRARY_PATH=/soft/cfitsio/3410/lib:${LD_LIBRARY_PATH}
 
 ##
 ## openblas
-##
-
-#export LD_LIBRARY_PATH=/soft/OpenBLAS/12ab180/lib:${LD_LIBRARY_PATH}
-#export OPENBLAS_NUM_THREADS=8
+=======
 
 ##
-## openmpi
+## cfitsio
+>>>>>>> eb6071a37e65dba0b9a6252447eaf89957f415aa
 ##
 
-#export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}
-#export PATH=$PATH:/usr/lib64/openmpi/bin
+export LD_LIBRARY_PATH=/soft/cfitsio/3380/lib:${LD_LIBRARY_PATH}
+
 
 ##
 ## change the terminal title

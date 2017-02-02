@@ -2,16 +2,17 @@
 # Makefile.in
 #
 
-SNR_ROOT_DIR = /home/morii/work/github/moriiism
+SNR_ROOT_DIR := /home/morii/work/github/moriiism
 
-SNR_BIN_DIR = ${SNR_ROOT_DIR}/bin
-SNR_LIB_DIR = ${SNR_ROOT_DIR}/lib
-SNR_INC_DIR = ${SNR_ROOT_DIR}/include
+SNR_BIN_DIR := ${SNR_ROOT_DIR}/bin
+SNR_LIB_DIR := ${SNR_ROOT_DIR}/lib
+SNR_INC_DIR := ${SNR_ROOT_DIR}/include
 
-INST_BIN_DIR = ${SNR_BIN_DIR}
-INST_LIB_DIR = ${SNR_LIB_DIR}
-INST_INC_DIR = ${SNR_INC_DIR}
+INST_BIN_DIR := ${SNR_BIN_DIR}
+INST_LIB_DIR := ${SNR_LIB_DIR}
+INST_INC_DIR := ${SNR_INC_DIR}
 
+<<<<<<< HEAD
 #### eigen
 # EIGEN_INC = -I/soft/eigen/3.2.8/include/eigen3
 
@@ -52,11 +53,36 @@ MT_LIB = -L$(MT_DIR)/lib -lmt19937-64
 CFITSIO_DIR = /soft/cfitsio/3410
 CFITSIO_INC = -I$(CFITSIO_DIR)/include
 CFITSIO_LIB = -L$(CFITSIO_DIR)/lib -lcfitsio
+=======
+### Root
+ROOT_INC := -I$(shell root-config --incdir)
+ROOT_CFLAGS := $(shell root-config --cflags)
+ROOT_LDFLAGS := $(shell root-config --ldflags)
+ROOT_LIBS := $(shell root-config --libs)
+ROOT_GLIBS := $(shell root-config --glibs)
+ROOT_ALLLIBS := $(ROOT_LIBS) $(ROOT_GLIBS)
+
+### MersenneTwister
+MT_DIR := /soft/MersenneTwister/mt19937-64
+MT_INC := -I$(MT_DIR)
+MT_LIB := -L$(MT_DIR) -lmt19937-64
+
+### cfitsio
+CFITSIO_DIR := /soft/cfitsio/3380
+CFITSIO_INC := -I$(CFITSIO_DIR)/include
+CFITSIO_LIB := -L$(CFITSIO_DIR)/lib -lcfitsio
+>>>>>>> eb6071a37e65dba0b9a6252447eaf89957f415aa
 
 ### milib
-MILIB_DIR = /home/morii/work/github/moriiism/mitool/milib
-MILIB_INC = -I$(MILIB_DIR)/include
-MILIB_LIB = -L$(MILIB_DIR)/lib -lmilib
+MILIB_DIR := /home/morii/work/github/moriiism/mitool/milib
+MILIB_INC := -I$(MILIB_DIR)/include
+MILIB_LIB := -L$(MILIB_DIR)/lib -lmilib
+
+### mirootlib
+MIROOTLIB_DIR := /home/morii/work/github/moriiism/mitool/mirootlib
+MIROOTLIB_INC := -I$(MIROOTLIB_DIR)/include
+MIROOTLIB_LIB := -L$(MIROOTLIB_DIR)/lib -lmirootlib
+
 
 ### mifitslib
 MIFITSLIB_DIR = /home/morii/work/github/moriiism/mitool/mifitslib
@@ -65,20 +91,19 @@ MIFITSLIB_LIB = -L$(MIFITSLIB_DIR)/lib -lmifitslib
 
 
 ### library
-LIB = -lm -lrt
-# -lreadline -ltermcap -ldl
+LIB := -lm -lrt
 
 # compiler
-FC = f77
-# FC = gfortran
-CC = gcc
-CXX = g++
-LD = gcc
+FC := f77
+# FC := gfortran
+CC := gcc
+CXX := g++
+LD := gcc
 
-FFLAGS   = -Wall -g -O2 -fPIC
-CFLAGS   = -Wall -g -O2 -fPIC
-CXXFLAGS = -Wall -g -O3 -fPIC
-LDFLAGS  = -g -O2
+FFLAGS   := -Wall -g -O2 -fPIC
+CFLAGS   := -Wall -g -O2 -fPIC $(ROOT_CFLAGS)
+CXXFLAGS := -Wall -g -O3 -fPIC $(ROOT_CFLAGS)
+LDFLAGS  := -g -O2 $(ROOT_LDLAGS)
 
 FCN     = $(FC) $(FFLAGS) $(INCLUDE)
 CCN     = $(CC) $(CFLAGS) $(INCLUDE)
