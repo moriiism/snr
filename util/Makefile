@@ -1,4 +1,4 @@
-ALL = img2cube
+ALL = img2cube  coxreg
 
 all:
 	for dir in $(ALL); do \

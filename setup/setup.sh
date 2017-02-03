@@ -3,7 +3,7 @@
 #
 # setup script for moriiism/snr
 #
-# 2016.07.08  M.Morii
+# 2017.02.03  M.Morii
 #
 
 #
@@ -11,11 +11,32 @@
 # before using moriiism/snr
 #
 
-export LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}
+##
+## cfitsio
+##
 
-<<<<<<< HEAD
-#export LD_LIBRARY_PATH=/soft/cfitsio/3380/lib:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH=/soft/cfitsio/3410/lib:${LD_LIBRARY_PATH}
+
+##
+## gsl
+##
+
+export LD_LIBRARY_PATH=/soft/gsl/2.3/lib:${LD_LIBRARY_PATH}
+
+##
+## root
+##
+
+export LD_LIBRARY_PATH=/soft/root/6.08.02/lib:${LD_LIBRARY_PATH}
+export PATH=/soft/root/6.08.02/bin:${PATH}
+
+alias root="root -l"
+
+##
+## OpenBLAS
+##
+
+export LD_LIBRARY_PATH=/soft/OpenBLAS/bcfc298/lib:${LD_LIBRARY_PATH}
 
 ##
 ## gotoblas2
@@ -23,18 +44,6 @@ export LD_LIBRARY_PATH=/soft/cfitsio/3410/lib:${LD_LIBRARY_PATH}
 
 #export LD_LIBRARY_PATH=/home/morii/admin/GotoBLAS2/GotoBLAS2:${LD_LIBRARY_PATH}
 #export GOTO_NUM_THREADS=8
-
-##
-## openblas
-=======
-
-##
-## cfitsio
->>>>>>> eb6071a37e65dba0b9a6252447eaf89957f415aa
-##
-
-export LD_LIBRARY_PATH=/soft/cfitsio/3380/lib:${LD_LIBRARY_PATH}
-
 
 ##
 ## change the terminal title

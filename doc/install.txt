@@ -2,3 +2,30 @@
 # install.txt
 #
 
+Installation steps are shown below.
+In this explanation, the user name is assumed to be "morii".
+The downloaded files will be stored in the sub-directory
+under "/home/morii/admin", and these files will be
+installed in the sub-directory of "/soft".
+
+
+1. Installation of mitool
+
+2. Installation of snrtool
+ 
+mkdir /home/morii/work/github/moriiism/snr
+
+git clone https://<your account name>@github.com/moriiism/snr.git
+
+emacs Makefile.in &
+emacs setup/setup.sh &
+
+cd /home/morii/work/github/moriiism/snr
+source setup/setup.sh
+make > make.log 2>&1 &
+tail -f make.log
+
+# Check make.log and remove compile errors and warnings
+# If you find bugs, please contact with Mikio Morii.
+
+---------------------------------------------------------------------
