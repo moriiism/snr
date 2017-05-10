@@ -71,7 +71,8 @@ int main(int argc, char* argv[])
     gd2d->SetOvalArr(npoint + 1, ypoint_arr);
 
     // -------------------------
-    long npix = 512;
+    // long npix = 512;
+    long npix = argval->GetNpix();
     HistDataNerr2d* hd2d_md = new HistDataNerr2d;
     hd2d_md->Init(npix, 0.0, npix, npix, 0.0, npix);
     vector<double> mdx_vec;

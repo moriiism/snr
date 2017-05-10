@@ -10,6 +10,7 @@ public:
         progname_(""),
         in_file_(""),
         ntheta_(0),
+        npix_(0),
         outdir_(""),
         outfile_head_("") {}
     ~ArgValCoxreg(){
@@ -21,6 +22,7 @@ public:
     string GetProgname() const {return progname_;};
     string GetInFile() const {return in_file_;};
     int    GetNtheta() const {return ntheta_;};
+    long   GetNpix() const {return npix_;};
     string GetOutdir() const {return outdir_;};
     string GetOutfileHead() const {return outfile_head_;};
 
@@ -28,6 +30,7 @@ private:
     string progname_;
     string in_file_;
     int    ntheta_;
+    long   npix_;
     string outdir_;
     string outfile_head_;
 
