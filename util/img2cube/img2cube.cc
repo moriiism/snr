@@ -33,6 +33,7 @@ int main(int argc, char* argv[])
     argval->Print(fp_log);
 
 
+
     printf("--- imglist ---\n");
     
     string* imglist = NULL;
@@ -51,7 +52,6 @@ int main(int argc, char* argv[])
     img_info->PrintInfo();
     printf("=== img_info ===\n");
     
-
     long npix_cube =
         img_info->GetNaxesArrElm(0) *
         img_info->GetNaxesArrElm(1) *
@@ -69,8 +69,6 @@ int main(int argc, char* argv[])
         }
         delete [] X_mat;
     }
-
-    
 
     float* cube_float_mat = new float [npix_cube];
     for(long ipix = 0; ipix < npix_cube; ipix ++){
@@ -109,8 +107,6 @@ int main(int argc, char* argv[])
                          "cube_log",
                          3, img_info_cube->GetNaxesArr(),
                          cube_log_float_mat);
-    
-    
     
     return status_prog;
 }
