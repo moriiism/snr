@@ -46,6 +46,12 @@ export LD_LIBRARY_PATH=/soft/OpenBLAS/bcfc298/lib:${LD_LIBRARY_PATH}
 #export GOTO_NUM_THREADS=8
 
 ##
+## openCV
+## 
+
+export LD_LIBRARY_PATH=/soft/opencv/3.2.0/lib:${LD_LIBRARY_PATH}
+
+##
 ## change the terminal title
 ##
 
