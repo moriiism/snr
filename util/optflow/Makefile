@@ -8,8 +8,8 @@ TARGET = optflow
 
 all: $(TARGET) 
 
-optflow: optflow.o  arg_optflow.o
-	$(CXXN) $@.o arg_$@.o  ${LDLIBS} -o $@
+optflow: optflow.o  arg_optflow.o  sub.o
+	$(CXXN) $@.o arg_$@.o sub.o ${LDLIBS} -o $@
 
 .SUFFIXES:
 .SUFFIXES: .o .c .f .F .cc

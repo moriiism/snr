@@ -10,7 +10,6 @@ public:
         progname_(""),
         in_file_(""),
         subcube_dat_(""),
-        obsmjd_dat_(""),
         outdir_(""),
         outfile_head_("") {}
     ~ArgValOptflow(){
@@ -22,7 +21,6 @@ public:
     string GetProgname() const {return progname_;};
     string GetInFile() const {return in_file_;};
     string GetSubcubeDat() const {return subcube_dat_;};
-    string GetObsmjdDat() const {return obsmjd_dat_;};
     string GetOutdir() const {return outdir_;};
     string GetOutfileHead() const {return outfile_head_;};
 
@@ -30,7 +28,6 @@ private:
     string progname_;
     string in_file_;
     string subcube_dat_;
-    string obsmjd_dat_;
     string outdir_;
     string outfile_head_;
 
