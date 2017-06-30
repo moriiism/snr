@@ -133,6 +133,8 @@ int main(int argc, char* argv[])
     calcOpticalFlowFarneback(img1, img2, flow, 0.5, 3, 15, 3, 5, 1.2, 0);
     DrawVectMap(221, 211, flow, img1, root_tool);
     DrawFlowVelMap(221, 211, flow, img1, root_tool);
+
+    
     
     img1.copyTo(cflow);
     for(long ibinx = 0; ibinx < img_info_in->GetNaxesArrElm(0); ibinx ++){

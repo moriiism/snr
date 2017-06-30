@@ -58,8 +58,28 @@ void DrawFlowVelMap(int posx_c, int posy_c,
         }
     }
     TH2D* th2d = hd2d->GenTH2D(0.0, 0.0, 0.0);
+
+//    int colors[] = {2, 3, 4, 5, 6, 7, 8, 9, 10}; // #colors >= #levels - 1
+//    gStyle->SetPalette((sizeof(colors)/sizeof(int)), colors);
+//    // #levels <= #colors + 1 (notes: +-1.79e308 = +-DBL_MAX; +1.17e-38 = +FLT_MIN)
+//    double levels[] = {-400, -300, -200, -100, 0.0, 100, 200, 300, 400, 500};
+//    th2d->SetContour((sizeof(levels)/sizeof(double)), levels);
+
     th2d->Draw("colz");
     root_tool->GetTCanvas()->SetCanvasSize(1200, 1200);
     root_tool->GetTCanvas()->Print("flowvel.png");
+
+    long* naxes = new long[2];
+    naxes[0] = img.cols;
+    naxes[1] = img.rows;
+    float* data_arr = new float[img.cols * img.rows];
+    for(long iarr = 0; iarr < img.cols * img.rows; iarr ++){
+        data_arr[iarr] = hd2d->GetOvalArr()->GetValElm(iarr);
+    }
+    MifFits::OutFitsImageF(".", "casa", "flowvel", 2, naxes,
+                           data_arr);
+    delete [] naxes;
+    delete [] data_arr;
+    
     delete th2d;
 }
