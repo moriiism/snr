@@ -1,4 +1,4 @@
-ALL = img2cube  coxreg  expand  optflow  ofmov
+ALL = img2cube  coxreg  expand  ofmov  ofimg2  ofimg2sp optflow
 
 all:
 	for dir in $(ALL); do \
