@@ -1,72 +1,29 @@
 #
-# img2cube.txt
+# ofimg2.txt
 #
 
 ### example
 
-
-source /home/morii/work/github/moriiism/snr/setup/setup.sh
+source ~/work/github/moriiism/snr/setup/setup.sh
 
 mkdir setup
 
-cat << EOF > setup/img.list
-../../data/CasA/160714/image/0.5-0.54_flux_smo1.img
-../../data/CasA/160714/image/0.54-0.58_flux_smo1.img
-../../data/CasA/160714/image/0.58-0.62_flux_smo1.img
-../../data/CasA/160714/image/0.62-0.66_flux_smo1.img
-../../data/CasA/160714/image/0.66-0.71_flux_smo1.img
-../../data/CasA/160714/image/0.71-0.76_flux_smo1.img
-../../data/CasA/160714/image/0.76-0.81_flux_smo1.img
-../../data/CasA/160714/image/0.81-0.87_flux_smo1.img
-../../data/CasA/160714/image/0.87-0.93_flux_smo1.img
-../../data/CasA/160714/image/0.93-1_flux_smo1.img
-../../data/CasA/160714/image/1-1.07_flux_smo1.img
-../../data/CasA/160714/image/1.07-1.15_flux_smo1.img
-../../data/CasA/160714/image/1.15-1.23_flux_smo1.img
-../../data/CasA/160714/image/1.23-1.32_flux_smo1.img
-../../data/CasA/160714/image/1.32-1.41_flux_smo1.img
-../../data/CasA/160714/image/1.41-1.51_flux_smo1.img
-../../data/CasA/160714/image/1.51-1.62_flux_smo1.img
-../../data/CasA/160714/image/1.62-1.74_flux_smo1.img
-../../data/CasA/160714/image/1.74-1.86_flux_smo1.img
-../../data/CasA/160714/image/1.86-2_flux_smo1.img
-../../data/CasA/160714/image/2-2.14_flux_smo1.img
-../../data/CasA/160714/image/2.14-2.29_flux_smo1.img
-../../data/CasA/160714/image/2.29-2.45_flux_smo1.img
-../../data/CasA/160714/image/2.45-2.63_flux_smo1.img
-../../data/CasA/160714/image/2.63-2.82_flux_smo1.img
-../../data/CasA/160714/image/2.82-3.02_flux_smo1.img
-../../data/CasA/160714/image/3.02-3.24_flux_smo1.img
-../../data/CasA/160714/image/3.24-3.47_flux_smo1.img
-../../data/CasA/160714/image/3.47-3.72_flux_smo1.img
-../../data/CasA/160714/image/3.72-3.98_flux_smo1.img
-../../data/CasA/160714/image/3.98-4.27_flux_smo1.img
-../../data/CasA/160714/image/4.27-4.57_flux_smo1.img
-../../data/CasA/160714/image/4.57-4.9_flux_smo1.img
-../../data/CasA/160714/image/4.9-5.25_flux_smo1.img
-../../data/CasA/160714/image/5.25-5.62_flux_smo1.img
-../../data/CasA/160714/image/5.62-6.03_flux_smo1.img
-../../data/CasA/160714/image/6.03-6.46_flux_smo1.img
-../../data/CasA/160714/image/6.46-6.92_flux_smo1.img
-../../data/CasA/160714/image/6.92-7.41_flux_smo1.img
-../../data/CasA/160714/image/7.41-7.94_flux_smo1.img
-EOF
-
 cat << EOF > setup/subimg.dat
 #  x(pixel)  y(pixel)
-50    50
-400  400
+1     1
+450   450
 EOF
 
-in_list=setup/img.list
+in_file1=../../data/CasA/170520/4.1-6.3/114_4.1-6.3_smo1.img
+in_file2=../../data/CasA/170520/4.1-6.3/14482_4.1-6.3_smo1.img
 subimg_dat=setup/subimg.dat
-outdir=img2cube
-outfile_head=casa
+outdir=casa_cont_00-14
+outfile_head=ofimg2
 
-/home/morii/work/github/moriiism/snr/util/img2cube/img2cube \
-${in_list} \
+/home/morii/work/github/moriiism/snr/util/ofimg2/ofimg2 \
+${in_file1} \
+${in_file2} \
 ${subimg_dat} \
 ${outdir} \
 ${outfile_head}
-
 
