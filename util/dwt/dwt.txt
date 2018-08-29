@@ -1,0 +1,33 @@
+#
+# ofimg2.txt
+#
+
+### example
+
+source ~/work/github/moriiism/snr/setup/setup.sh
+
+cd /home/morii/work/snr/ana
+mkdir 18082900
+cd 18082900
+
+mkdir setup
+
+cat << EOF > setup/subimg.dat
+#  x(pixel)  y(pixel)
+1     1
+450   450
+EOF
+
+in_file1=../../data/CasA/170520/4.1-6.3/114_4.1-6.3_smo1.img
+in_file2=../../data/CasA/170520/4.1-6.3/14482_4.1-6.3_smo1.img
+subimg_dat=setup/subimg.dat
+outdir=casa_cont_00-14
+outfile_head=dwt
+
+/home/morii/work/github/moriiism/snr/util/dwt/dwt \
+${in_file1} \
+${in_file2} \
+${subimg_dat} \
+${outdir} \
+${outfile_head}
+

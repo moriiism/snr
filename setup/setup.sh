@@ -15,7 +15,9 @@
 ## cfitsio
 ##
 
-export LD_LIBRARY_PATH=/soft/cfitsio/3410/lib:${LD_LIBRARY_PATH}
+# export LD_LIBRARY_PATH=/soft/cfitsio/3410/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=/soft/heasoft/heasoft-6.16/x86_64-unknown-linux-gnu-libc2.12/lib:${LD_LIBRARY_PATH}
+
 
 ##
 ## gsl
