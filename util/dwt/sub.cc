@@ -1,5 +1,81 @@
 #include "sub.h"
 
+void Dwt(const double* const img_mat, long npix_img,
+         const MifImgInfo* const img_info_in,
+         const double* const filter_arr, int nfil,
+         int nstep,
+         double** const img_dwt_mat_arr)
+{
+    for(int istep = 0; istep < nstep - 1; istep ++){
+
+        for(long ibiny = 0; ibiny < img_info_in->GetNaxesArrElm(1); ibiny++){
+            for(long ibinx = 0; ibinx < img_info_in->GetNaxesArrElm(0); ibinx++){
+
+                long index0 = ibiny * img_info_in->GetNaxesArrElm(0) + ibinx;
+                img_dwt_mat_arr[istep + 1][index0] = 0.0;
+                for(int ifilx = 0; ifilx < nfil; ifilx ++){
+                    for(int ifily = 0; ifily < nfil; ifily ++){
+                        int index_x = ibinx + (ifilx - 2) * pow(2, istep);
+                        int index_y = ibiny + (ifily - 2) * pow(2, istep);
+                        if(index_x < 0){
+                            index_x = 0;
+                        }
+                        if(index_x > img_info_in->GetNaxesArrElm(0)){
+                            index_x = img_info_in->GetNaxesArrElm(0) - 1;
+                        }                        
+                        if(index_y < 0){
+                            index_y = 0;
+                        }
+                        if(index_y > img_info_in->GetNaxesArrElm(1)){
+                            index_y = img_info_in->GetNaxesArrElm(1) - 1;
+                        }
+                        int index = index_y * img_info_in->GetNaxesArrElm(0) + index_x;
+                        img_dwt_mat_arr[istep + 1][index0] +=
+                            img_dwt_mat_arr[istep][index] * filter_arr[ifilx] * filter_arr[ifily];
+                    }
+                }
+
+            }
+        }
+        // diff
+        for(long ibiny = 0; ibiny < img_info_in->GetNaxesArrElm(1); ibiny++){
+            for(long ibinx = 0; ibinx < img_info_in->GetNaxesArrElm(0); ibinx++){
+                long index = ibiny * img_info_in->GetNaxesArrElm(0) + ibinx;
+                img_dwt_mat_arr[istep][index] -= img_dwt_mat_arr[istep + 1][index];
+            }
+        }
+        
+    }
+}
+
+void RescaleFrame(const double* const img_mat,
+                  const MifImgInfo* const img_info_in,
+                  Mat mat, Mat mat_plus)
+{
+    double mat_max = MirMath::GetMax(img_info_in->GetNpixelImg(), img_mat);
+    for(long ibiny = 0; ibiny < img_info_in->GetNaxesArrElm(1); ibiny++){
+        for(long ibinx = 0; ibinx < img_info_in->GetNaxesArrElm(0); ibinx++){
+            long index = ibiny * img_info_in->GetNaxesArrElm(0) + ibinx;
+            double val = img_mat[index] / mat_max * 127;
+            if(val < -128 ){
+                val = -128;
+            } else if(val > 127 ){
+                val = 127;
+            }
+            mat.at<signed char>(ibiny, ibinx) =  (signed char) val;
+
+            double val_plus = img_mat[index] / mat_max * 255;
+            if(val <= 0.0 ){
+                val_plus = 0.0;
+            } else if(val > 255 ){
+                val_plus = 255;
+            }
+            mat_plus.at<unsigned char>(ibiny, ibinx) =  (unsigned char) val_plus;
+        }
+    }
+}
+
+
 void DrawVectMap(int posx_c, int posy_c,
                  const cv::Mat& flow, const cv::Mat& img,
                  MirRootTool* root_tool,

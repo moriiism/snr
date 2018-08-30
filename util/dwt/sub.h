@@ -22,6 +22,16 @@
 
 using namespace cv;
 
+void Dwt(const double* const img_mat, long npix_img,
+         const MifImgInfo* const img_info_in,
+         const double* const filter_arr, int nfil,
+         int nstep,
+         double** const img_dwt_mat_arr);
+
+void RescaleFrame(const double* const img_mat,
+                  const MifImgInfo* const img_info_in,
+                  Mat mat, Mat mat_plus);
+
 void DrawVectMap(int posx_c, int posy_c,
                  const Mat& flow, const Mat& img,
                  MirRootTool* root_tool,
